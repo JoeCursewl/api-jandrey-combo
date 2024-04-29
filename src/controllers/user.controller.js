@@ -104,8 +104,8 @@ export const verifyToken = async (req, res) => {
 
   try {
     const decoded = jwt.verify(token, SECRET_KEY);
-    const tQuery = 'SELECT * FROM sessiontokens WHERE _id_user = $1'
-    const result = await pool.query(tQuery, [decoded._id]);
+    const tQuery = 'SELECT * FROM sessiontokens WHERE _id_user = $1 and stoken = $2'
+    const result = await pool.query(tQuery, [decoded._id, token]);
     
     if (result.rowCount === 0) {
       return res.status(401).json({ message: "INVALID TOKEN REJECTED" });
