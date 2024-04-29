@@ -19,4 +19,8 @@ app.use(
 // RECURSO USERS
 app.use("/users", userRouter);
 
+app.get('/', (req, res) => {
+  res.status(401).json({ message: 'UNAUTHORIZED' })
+})
+
 export default app;
