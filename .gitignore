@@ -1,0 +1,57 @@
+# Ignora la carpeta node_modules y sus subcarpetas
+node_modules/
+npm_modules/
+yarn/
+.cache/
+.yarn/
+.watchman/
+yarn-lock.json
+package-lock.json
+
+# Ignora los archivos .env
+.env
+.env.development
+.env.production
+.env.test
+
+# Ignora archivos de configuración específicos
+webpack.config.js
+babel.config.js
+jest.config.js
+tsconfig.json
+
+# Ignora directorios de logs y archivos temporales
+logs/
+tmp/
+build/
+dist/
+
+# Ignora archivos de IDE y herramientas de desarrollo
+.idea/
+.vscode/
+.DS_Store
+*.swp
+*.log
+*.pid
+
+# Ignora archivos de prueba y configuraciones de prueba
+jest/__snapshots__/
+jest/setup.js
+jest/teardown.js
+test/
+tests/
+e2e/
+integration/
+unit/
+
+# Ignora archivos de cobertura de código
+coverage/
+.coverage/
+
+# Ignora archivos generados por herramientas
+*.bundle.js
+*.min.js
+*.map
+
+# Ignora configuraciones locales
+.gitignore_local
