@@ -70,7 +70,7 @@ export const loginUsers = async (req, res) => {
     const token = jwt.sign(
       { _id: user._id, email: user.email, name: user.name },
       SECRET_KEY,
-      { expiresIn: "1h" },
+      { expiresIn: "8h" },
       async (error, token) => {
         if (error) console.log(error);
 
