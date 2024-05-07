@@ -68,7 +68,7 @@ export const loginUsers = async (req, res) => {
     const user = result.rows[0];
 
     const token = jwt.sign(
-      { _id: user._id, email: user.email, name: user.name },
+      { _id: user._id, email: user.email, name: user.name, _role: user._role },
       SECRET_KEY,
       { expiresIn: "8h" },
       async (error, token) => {
