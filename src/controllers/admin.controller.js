@@ -89,7 +89,7 @@ export const getPosts = async (req, res) => {
       return res.status(401).json({ message: error_messgae_401 });
     }
 
-    const gQuery = "SELECT * FROM post_admins ORDER BY created_at DESC";
+    const gQuery = "SELECT * FROM post_admins ORDER BY created_at ASC";
     const response = await pool.query(gQuery);
 
     return res.status(200).json({ message: response.rows });
