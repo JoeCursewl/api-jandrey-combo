@@ -1,5 +1,4 @@
 import pool from "../db.brd.js";
-import * as argon2 from "argon2";
 import jwt from "jsonwebtoken";
 import {
   error_messgae_500,
@@ -98,3 +97,53 @@ export const getPosts = async (req, res) => {
     return res.status(500).json({ message: error_messgae_500 });
   }
 };
+
+export const registerPackages = async (req, res) => {
+  const token = req.headers.authorization;
+
+  try {
+    const decoded = jwt.verify(token, SECRET_KEY);
+    const tQuery = "SELECT * FROM sessiontokens WHERE _id_user = $1 and stoken = $2";
+    const result = await pool.query(tQuery, [decoded._id, token]);
+
+    if (result.rowCount === 0) {
+      return res.status(401).json({ message: "INVALID TOKEN REJECTED" });
+    }
+
+    const uuid = crypto.randomUUID();
+    const {
+      name_package,
+      description_package,
+      price_package,
+      created_at,
+      name_user,
+    } = req.body;
+
+    const iQuery =
+      "INSERT INTO admin_packages VALUES ($1, $2, $3, $4, $5, $6)";
+    const response = await pool.query(iQuery, [
+      uuid,
+      name_package,
+      description_package,
+      price_package,
+      created_at,
+      name_user,
+    ]);
+
+    if (response.rowCount === 0) {
+      return res.status(400).json({ message: response.message });
+    }
+
+    return res.status(200).json({
+      uuid: uuid,
+      name_package: name_package,
+      description_package: description_package,
+      price_package: price_package,
+      created_at: created_at,
+      name_user: name_user,
+    });
+
+  } catch (error) {
+    return res.status(500).json({ message: error_messgae_500 }); 
+  }
+}
