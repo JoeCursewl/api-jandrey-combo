@@ -112,6 +112,7 @@ export const registerPackages = async (req, res) => {
 
     const uuid = crypto.randomUUID();
     const {
+      _id_user,
       name_package,
       description_package,
       price_package,
@@ -120,9 +121,10 @@ export const registerPackages = async (req, res) => {
     } = req.body;
 
     const iQuery =
-      "INSERT INTO admin_packages VALUES ($1, $2, $3, $4, $5, $6)";
+      "INSERT INTO admin_packages VALUES ($1, $2, $3, $4, $5, $6, $7)";
     const response = await pool.query(iQuery, [
       uuid,
+      _id_user,
       name_package,
       description_package,
       price_package,
@@ -136,6 +138,7 @@ export const registerPackages = async (req, res) => {
 
     return res.status(200).json({
       uuid: uuid,
+      _id_user: _id_user,
       name_package: name_package,
       description_package: description_package,
       price_package: price_package,
