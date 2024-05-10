@@ -144,6 +144,7 @@ export const registerPackages = async (req, res) => {
     });
 
   } catch (error) {
+    console.log(error.message)
     return res.status(500).json({ message: error_messgae_500 }); 
   }
 }
