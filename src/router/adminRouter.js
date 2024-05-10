@@ -3,7 +3,7 @@ import { getPosts, registerPosts, registerPackages } from '../controllers/admin.
 const adminRouter = Router()
 
 adminRouter.post('/post', registerPosts)
-adminRouter.post('/post', registerPackages)
+adminRouter.post('/packages', registerPackages)
 adminRouter.get('/getposts', getPosts)
 
 export default adminRouter
