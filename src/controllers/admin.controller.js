@@ -151,3 +151,62 @@ export const registerPackages = async (req, res) => {
     return res.status(500).json({ message: error_messgae_500 }); 
   }
 }
+
+export const registerTrainers = async (req, res) => {
+  const token = req.headers.authorization;
+
+  try {
+    const decoded = jwt.verify(token, SECRET_KEY);
+    const tQuery = "SELECT * FROM sessiontokens WHERE _id_user = $1 and stoken = $2";
+    const result = await pool.query(tQuery, [decoded._id, token]);
+
+    if (result.rowCount === 0) {
+      return res.status(401).json({ message: "INVALID TOKEN REJECTED" });
+    }
+
+    const {
+      _id_trainer,
+      _id_user,
+      name_trainer ,
+      packages_trainer,
+      schedule_trainer,
+      info_trainer ,
+      status_trainer,
+      created_at,
+      updated_at,
+    } = req.body;
+
+    const iQuery = "INSERT INTO admin_trainers VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)";
+    const response = await pool.query(iQuery, [
+      _id_trainer,
+      _id_user,
+      name_trainer,
+      packages_trainer,
+      schedule_trainer,
+      info_trainer,
+      status_trainer,
+      created_at,
+      updated_at,
+    ])
+
+    if (response.rowCount === 0) {
+      return res.status(400).json({ message: response.message });
+    }
+
+    return res.status(200).json({
+      _id_trainer: _id_trainer,
+      _id_user: _id_user,
+      name_trainer: name_trainer,
+      packages_trainer: packages_trainer,
+      schedule_trainer: schedule_trainer,
+      info_trainer: info_trainer,
+      status_trainer: status_trainer,
+      created_at: created_at,
+      updated_at: updated_at,
+    });
+    
+  } catch (error) {
+    console.log(error.message)
+    return res.status(500).json({ message: error_messgae_500 }); 
+  }
+}
