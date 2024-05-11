@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { SECRET_KEY } from "../config.brd.js";
+const { SECRET_KEY } = process.env;
 import { error_messgae_500 } from "../config.brd.js";
 export const getPackages = async (req, res) => {
     const token = req.headers.authorization;
