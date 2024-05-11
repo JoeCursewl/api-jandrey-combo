@@ -8,6 +8,8 @@ adminRouter.post('/packages', registerPackages)
 
 adminRouter.post('/trainers', registerTrainers)
 
+adminRouter.post('/information', registerTrainers)
+
 adminRouter.get('/getposts', getPosts)
 
 export default adminRouter
