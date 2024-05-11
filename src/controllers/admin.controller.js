@@ -255,7 +255,7 @@ export const registerInformation = async (req, res) => {
       return res.status(400).json({ message: response.message });
     }
 
-    return res.stauts(200).json({
+    return res.status(200).json({
       _id_info: _id_info,
       _id_user: _id_user,
       name_contact: name_contact,
