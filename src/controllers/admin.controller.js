@@ -238,7 +238,7 @@ export const registerInformation = async (req, res) => {
     } = req.body;
 
     const iQuery =
-      "INSERT INTO admin_information VALUES ($1, $2, $3, $4, $5, $6, $7, $8 $9)";
+      "INSERT INTO admin_information VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)";
     const response = await pool.query(iQuery, [
       _id_info,
       _id_user,
@@ -266,7 +266,7 @@ export const registerInformation = async (req, res) => {
       created_at: created_at,
       updated_at: updated_at,
     })
-    
+
   } catch (error) {
     console.log(error.message);
     return res.status(500).json({ message: error_messgae_500 });
