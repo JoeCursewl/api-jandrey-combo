@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { getPackages } from '../controllers/info.controller';
 
 const infoRouter = Router()
 
