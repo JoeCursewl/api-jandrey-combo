@@ -21,7 +21,7 @@ export const getPackages = async (req, res) => {
             return res.status(401).json({ message: "INVALID TOKEN REJECTED" });
         }
 
-        const gQuery = `SELECT * FROM admin_packages ORDER BY created_at ASC LIMIT 10 OFFSET ${(page - 1) * 10}`;
+        const gQuery = `SELECT * FROM admin_packages ORDER BY created_at ASC LIMIT 20 OFFSET ${(page - 1) * 10}`;
         const response = await pool.query(gQuery);
 
         return res.status(200).json({ message: response.rows });
