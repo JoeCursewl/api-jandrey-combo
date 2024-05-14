@@ -55,6 +55,11 @@ export const getTrainers = async (req, res) => {
 export const getInformation = async (req, res) => {
     const token = req.headers.authorization;
     const { page } = req.params
+
+    if (!token) {
+        return res.status(401).json({ message: "No se proporcionó un token" });
+    }
+    
     try {
         const decoded = jwt.verify(token, SECRET_KEY);
         const tQuery = "SELECT * FROM sessiontokens WHERE _id_user = $1 and stoken = $2";
