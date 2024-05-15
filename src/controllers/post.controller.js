@@ -1,5 +1,5 @@
 import pool from "../db.brd.js"
-import { error_messgae_400, error_messgae_500, error_messgae_401 } from "../config.brd"
+import { error_messgae_400, error_messgae_500, error_messgae_401 } from "../config.brd.js"
 const { SECRET_KEY } = process.env
 
 export const getPosts = async (req, res) => {
