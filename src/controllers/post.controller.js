@@ -51,9 +51,9 @@ export const updatePost = async (req, res) => {
         }
 
         const { id } = req.params
-        const { title_post, description_post, labels } = req.body
-        const uQuery = 'UPDATE post_admins SET title_post = $1, description_post = $2, labels = $3 WHERE uuid = $4'
-        const response = await pool.query(uQuery, [title_post, description_post, labels, id])
+        const { title_post, description_post, labels, updated_at } = req.body
+        const uQuery = 'UPDATE post_admins SET title_post = $1, description_post = $2, labels = $3, updated_at = $4 WHERE uuid = $5'
+        const response = await pool.query(uQuery, [title_post, description_post, labels, updated_at, id])
 
         if (response.rowCount === 0) {
             return res.status(404).json({ message: 'Post no encontrado' })
