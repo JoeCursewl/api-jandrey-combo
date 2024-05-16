@@ -7,6 +7,8 @@ postsRouter.get('/get/:id', getPosts)
 
 postsRouter.patch('/update/:id', updatePost)
 
+postsRouter.delete('/delete/:id', deletePost)
+
 export default postsRouter
 
 
