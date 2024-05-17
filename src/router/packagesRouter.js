@@ -9,6 +9,6 @@ packagesRouter.patch('/update/:id', updatePackage)
 
 packagesRouter.delete('/delete/:id', deletePackage)
 
-export default postsRouter
+export default packagesRouter
 
 
