@@ -19,7 +19,7 @@ export const getPackage = async (req, res) => {
             return res.status(401).json({ message: error_messgae_401 })
         }
         const { id } = req.params;
-        const gQuery = 'SELECT * FROM packages WHERE _id_package = $1';
+        const gQuery = 'SELECT * FROM admin_packages WHERE _id_package = $1';
         const response = await pool.query(gQuery, [id]);
 
         if (response.rowCount === 0) {
