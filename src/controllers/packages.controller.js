@@ -92,7 +92,7 @@ export const deletePackage = async (req, res) => {
     }
 
     const { id } = req.params;
-    const dQuery = "DELETE FROM admin_packages WHERE uuid = $1";
+    const dQuery = "DELETE FROM admin_packages WHERE _id_package = $1";
     const response = await pool.query(dQuery, [id]);
 
     if (response.rowCount === 0) {
