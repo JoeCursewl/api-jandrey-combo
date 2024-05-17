@@ -6,7 +6,6 @@ import {
   error_messgae_500,
 } from "../config.brd.js";
 import pool from "../db.brd.js";
-import e from "express";
 
 export const getPackage = async (req, res) => {
   const token = req.headers.authorization;

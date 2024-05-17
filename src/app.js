@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import infoRouter from './router/infoRouter.js';
 import postsRouter from './router/postsRouter.js';
 import packagesRouter from './router/packagesRouter.js';
+import trainersRouter from './router/trainersRouter.js';
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use("/admins", adminRouter)
 app.use("/info", infoRouter)
 app.use("/posts", postsRouter)
 app.use("/packages", packagesRouter)
+app.use("/trainers", trainersRouter)
 
 app.get('/', (req, res) => {
   res.status(401).json({ message: 'UNAUTHORIZED' })
