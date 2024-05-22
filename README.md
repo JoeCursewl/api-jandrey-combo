@@ -1,4 +1,4 @@
-## API RESTful para gestión de productos con Express
+## API RESTful para gestión de un gimnasio con Express.js
 
 Introducción
 Esta API RESTful, construida con el framework Express.js de Node.js, permite gestionar productos en un sistema de novedades, y registro de entrenadores. Implementa las operaciones básicas CRUD (Crear, Leer, Actualizar y Eliminar) para un gimnasio.
