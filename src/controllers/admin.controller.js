@@ -339,7 +339,7 @@ export const getInformationById = async (req, res) => {
       return res.status(400).json({ message: `Information con el ID ${id} no existe` });
     }
 
-    return res.status(200).json(response.rows);
+    return res.status(200).json({ message: response.rows });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
