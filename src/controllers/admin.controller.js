@@ -345,3 +345,42 @@ export const getInformationById = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 }
+
+export const deleteInformation = async (req, res) => {
+  
+  const token = req.headers.authorization;
+
+  if (!token) {
+    return res.status(401).json({ message: "INVALID TOKEN REJECTED" });
+  }
+
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).json({ message: "No se encuentra el ID" });
+  }
+  
+  try {
+      const decoded = jwt.verify(token, SECRET_KEY);
+      if (!decoded) {  
+        return res.status(401).json({ message: "INVALID TOKEN REJECTED" });
+      }
+
+      const tQuery = "SELECT * FROM sessiontokens WHERE _id_user = $1 and stoken = $2";
+      const result = await pool.query(tQuery, [decoded._id, token]);
+      if (result.rowCount === 0) {
+        return res.status(401).json({ message: "INVALID TOKEN REJECTED" });
+      }
+
+      const iQuery = "DELETE FROM admin_information WHERE _id_info = $1";
+      const response = await pool.query(iQuery, [id]);
+
+      if (response.rowCount === 0) {
+        return res.status(400).json({ message: response.message });
+      }
+
+      return res.status(200).json({ message: "Information eliminada exisotamente!" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+}
