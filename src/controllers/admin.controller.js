@@ -272,3 +272,75 @@ export const registerInformation = async (req, res) => {
     return res.status(500).json({ message: error_messgae_500 });
   }
 };
+
+export const updateInformation = async (req, res) => {
+
+  const token = req.headers.authorization;
+
+  if (!token) {
+    return res.status(401).json({ message: "INVALID TOKEN REJECTED" });
+  }
+
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).json({ message: "No se encuentra el ID" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, SECRET_KEY);
+    const tQuery = "SELECT * FROM sessiontokens WHERE _id_user = $1 and stoken = $2";
+    const result = await pool.query(tQuery, [decoded._id, token]);
+
+    if (result.rowCount === 0) {
+      return res.status(401).json({ message: "INVALID TOKEN REJECTED" });
+    }
+
+    const { name_contact, description_contact, email_contact, phones_contact, status_contact } = req.body;
+    const iQuery = "UPDATE admin_information SET name_contact = $1, description_contact = $2, email_contact = $3, phones_contact = $4, status_contact = $5 WHERE _id_info = $6";
+    const response = await pool.query(iQuery, [name_contact, description_contact, email_contact, phones_contact, status_contact, id]);
+    
+    if (response.rowCount === 0) {
+      return res.status(400).json({ message: response.message });
+    }
+
+    return res.status(200).json({ message: "Information con exitosamente actualizada!" });
+  } catch (error) {
+    return res.status(5000).json({ message: error.message });
+  }
+}
+
+export const getInformationById = async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).json({ message: "No se encuentra el ID" });
+  }
+
+  const token = req.headers.authorization;
+  if (!token) {
+    return res.status(401).json({ message: "INVALID TOKEN REJECTED" });
+  }
+
+  try {
+
+    const decoded = jwt.verify(token, SECRET_KEY);
+    const tQuery = "SELECT * FROM sessiontokens WHERE _id_user = $1 and stoken = $2";
+    const result = await pool.query(tQuery, [decoded._id, token]);
+
+    if (result.rowCount === 0) {
+      return res.status(401).json({ message: "INVALID TOKEN REJECTED" });
+    }
+
+    const iQuery = "SELECT * FROM admin_information WHERE _id_info = $1";
+    const response = await pool.query(iQuery, [id]);
+
+    if (response.rowCount === 0) {
+      return res.status(400).json({ message: `Information con el ID ${id} no existe` });
+    }
+
+    return res.status(200).json(response.rows[0]);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+}

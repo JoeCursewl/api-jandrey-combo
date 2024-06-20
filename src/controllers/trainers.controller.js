@@ -6,7 +6,6 @@ import {
   error_messgae_500,
 } from "../config.brd.js";
 import pool from "../db.brd.js";
-import { registerUsers } from "./user.controller.js";
 
 export const getTrainer = async (req, res) => {
   const token = req.headers.authorization;

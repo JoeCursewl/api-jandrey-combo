@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getPosts, registerPosts, registerPackages, registerTrainers, registerInformation } from '../controllers/admin.controller.js';
+import { getPosts, registerPosts, registerPackages, registerTrainers, registerInformation, updateInformation, getInformationById } from '../controllers/admin.controller.js';
 const adminRouter = Router()
 
 adminRouter.post('/post', registerPosts)
@@ -9,6 +9,10 @@ adminRouter.post('/packages', registerPackages)
 adminRouter.post('/trainers', registerTrainers)
 
 adminRouter.post('/information', registerInformation)
+
+adminRouter.post('/information/update/:id', updateInformation)
+
+adminRouter.get('/information/getbyid/:id', getInformationById)
 
 adminRouter.get('/getposts', getPosts)
 
