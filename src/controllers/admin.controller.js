@@ -296,9 +296,9 @@ export const updateInformation = async (req, res) => {
       return res.status(401).json({ message: "INVALID TOKEN REJECTED" });
     }
 
-    const { name_contact, description_contact, email_contact, phones_contact, status_contact } = req.body;
-    const iQuery = "UPDATE admin_information SET name_contact = $1, description_contact = $2, email_contact = $3, phones_contact = $4, status_contact = $5 WHERE _id_info = $6";
-    const response = await pool.query(iQuery, [name_contact, description_contact, email_contact, phones_contact, status_contact, id]);
+    const { name_contact, description_contact, email_contact, phones_contact, status_contact, updated_at } = req.body;
+    const iQuery = "UPDATE admin_information SET name_contact = $1, description_contact = $2, email_contact = $3, phones_contact = $4, status_contact = $5, update_at = $6 WHERE _id_info = $7";
+    const response = await pool.query(iQuery, [name_contact, description_contact, email_contact, phones_contact, status_contact, updated_at, id]);
     
     if (response.rowCount === 0) {
       return res.status(400).json({ message: response.message });
