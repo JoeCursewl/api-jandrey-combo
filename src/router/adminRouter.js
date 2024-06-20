@@ -10,7 +10,7 @@ adminRouter.post('/trainers', registerTrainers)
 
 adminRouter.post('/information', registerInformation)
 
-adminRouter.patch('/information/update/:id', updateInformation)
+adminRouter.put('/information/update/:id', updateInformation)
 
 adminRouter.get('/information/getbyid/:id', getInformationById)
 
