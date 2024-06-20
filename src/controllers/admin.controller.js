@@ -306,7 +306,7 @@ export const updateInformation = async (req, res) => {
 
     return res.status(200).json({ message: "Information con exitosamente actualizada!" });
   } catch (error) {
-    return res.status(5000).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 }
 
