@@ -346,7 +346,7 @@ export const getInformationById = async (req, res) => {
   }
 }
 
-export const deleteInformation = async (req, res) => {
+export const deleteInformationById = async (req, res) => {
   
   const token = req.headers.authorization;
 
