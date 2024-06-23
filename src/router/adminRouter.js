@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getPosts, registerPosts, registerPackages, registerTrainers, registerInformation, updateInformation, getInformationById, deleteInformation, deleteInformationById } from '../controllers/admin.controller.js';
+import { getPosts, registerPosts, registerPackages, registerTrainers, registerInformation, updateInformation, getInformationById, deleteInformationById } from '../controllers/admin.controller.js';
 const adminRouter = Router()
 
 adminRouter.post('/post', registerPosts)
