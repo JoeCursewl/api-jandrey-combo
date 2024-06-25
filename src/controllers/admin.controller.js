@@ -379,7 +379,7 @@ export const deleteInformationById = async (req, res) => {
         return res.status(400).json({ message: response.message });
       }
 
-      return res.status(200).json({ message: "Information eliminada exisotamente!" });
+      return res.status(200).json({ message: "Información eliminada exisotamente!" });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
