@@ -34,14 +34,9 @@ export const getPackages = async (req, res) => {
 export const getTrainers = async (req, res) => {
     const token = req.headers.authorization;
     const { page } = req.params
+    
     try {
-        const decoded = jwt.verify(token, SECRET_KEY);
-        const tQuery = "SELECT * FROM sessiontokens WHERE _id_user = $1 and stoken = $2";
-        const result = await pool.query(tQuery, [decoded._id, token]);
-
-        if (result.rowCount === 0) {
-            return res.status(401).json({ message: error_messgae_401 })
-        }
+        console.log(token)
 
         const gQuery = `SELECT * FROM admin_trainers ORDER BY created_at ASC LIMIT 10 OFFSET ${(page - 1) * 10}`;
         const response = await pool.query(gQuery);
