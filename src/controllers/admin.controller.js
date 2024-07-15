@@ -76,6 +76,7 @@ export const registerPosts = async (req, res) => {
 
 export const getPosts = async (req, res) => {
   const api_key = req.headers.authorization;
+  const { page } = req.params;
 
   if (!api_key) {
     return res.status(401).json({ message: "No se proporcionó un token" });
@@ -89,7 +90,7 @@ export const getPosts = async (req, res) => {
       return res.status(401).json({ message: error_messgae_401 });
     }
 
-    const gQuery = "SELECT * FROM post_admins ORDER BY created_at ASC";
+    const gQuery = `SELECT * FROM post_admins ORDER BY index DESC LIMIT 10 OFFSET ${(page - 1) * 10}`;
     const response = await pool.query(gQuery);
 
     return res.status(200).json({ message: response.rows });
