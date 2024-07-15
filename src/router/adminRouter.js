@@ -16,7 +16,7 @@ adminRouter.get('/information/getbyid/:id', getInformationById)
 
 adminRouter.delete('/information/delete/:id', deleteInformationById)
 
-adminRouter.get('/getposts/:page', getPosts)
+adminRouter.get('/getposts/feed/:page', getPosts)
 
 export default adminRouter
 
