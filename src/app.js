@@ -22,11 +22,11 @@ app.use(
 
 // RECURSO USERS
 app.use("/users", userRouter);
-app.use("/admins", adminRouter)
-app.use("/info", infoRouter)
-app.use("/posts", postsRouter)
-app.use("/packages", packagesRouter)
-app.use("/trainers", trainersRouter)
+app.use("/admins", adminRouter);
+app.use("/info", infoRouter);
+app.use("/posts", postsRouter);
+app.use("/packages", packagesRouter);
+app.use("/trainers", trainersRouter);
 
 app.get('/', (req, res) => {
   res.status(401).json({ message: 'UNAUTHORIZED' })

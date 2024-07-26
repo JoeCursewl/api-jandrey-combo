@@ -3,6 +3,7 @@ import { error_messgae_400, error_messgae_500, error_messgae_401 } from "../conf
 const { SECRET_KEY } = process.env
 import jwt from "jsonwebtoken"
 import { compile } from "morgan"
+import { validToken } from "../middleware/auth/validToken.js"
 
 export const getPosts = async (req, res) => {
     try {
@@ -98,3 +99,47 @@ export const deletePost = async (req, res) => {
         return res.status(500).json({ message: error_messgae_500 })
     }
 }
+
+export const likePost = async (req, res) => {
+    const token = req.headers.authorization
+
+    if (!token) {
+        return res.status(401).json({ message: "No se proporcionó un token. Servidor no autorizado" })
+    }
+
+    try {
+        const { error, decoded } = validToken(token, SECRET_KEY);
+
+        if (error) {
+            return res.status(401).json({ message: "El token no es válido. Servicio no autorizado." })
+        }
+
+        const tQuery = "SELECT * FROM sessiontokens WHERE _id_user = $1 and stoken = $2"
+        const result = await pool.query(tQuery, [decoded._id, token])
+
+        if (result.rowCount === 0) {
+            return res.status(401).json({ message: error_messgae_401 })
+        }
+
+        // Registramos el like que se dió al post
+        const { post_id } = req.params;
+        const { created_at } = req.body;
+
+        const verifyLikeQuery = 'SELECT * FROM fg_likes WHERE post_id = $1 and user_id = $2'
+        const verifyLikeResponse = await pool.query(verifyLikeQuery, [post_id, decoded._id])
+
+        if (verifyLikeResponse.rowCount > 0) {
+            const dLikeQuery = 'DELETE FROM fg_likes WHERE post_id = $1 and user_id = $2'
+            const dLikeResponse = await pool.query(dLikeQuery, [post_id, decoded._id])
+        } else {
+            let iLikeQuery = 'INSERT INTO fg_likes (post_id, user_id, created_at) VALUES ($1, $2, $3)'
+            const iLikeResponse = await pool.query(iLikeQuery, [post_id, decoded._id, created_at])
+        }
+
+        return res.status(200).json({ message: 'Like registrado' })
+    } catch (error) {
+        console.log(`BRD | ERROR: ${error.message}`)
+        return res.status(500).json({ message: error_messgae_500 })
+    }
+}
+
