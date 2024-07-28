@@ -105,7 +105,7 @@ export const getPosts = async (req, res) => {
     `;
 
     console.log(`Count likes query: ${countLikeQuery}`);
-    const countLikeResponse = await pool.query(countLikeQuery, [uuids]);
+    const countLikeResponse = await pool.query(countLikeQuery, uuids);
 
     return res.status(200).json({ message: response.rows, likes: countLikeResponse.rows });
   } catch (error) {
