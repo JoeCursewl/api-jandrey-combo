@@ -95,12 +95,15 @@ export const getPosts = async (req, res) => {
 
     const uuids = response.rows.map(row => row.uuid);
     const placeholders = uuids.map(() => '?').join(',');
+    console.log(`Placeholder: ${placeholders}`);
     const countLikeQuery = `
       SELECT post_id, COUNT(*) as total_likes
       FROM fg_likes
       WHERE post_id IN (${placeholders})
       GROUP BY post_id
     `;
+
+    console.log(`Count likes query: ${countLikeQuery}`);
     const countLikeResponse = await pool.query(countLikeQuery, uuids);
 
     return res.status(200).json({ message: response.rows, likes: countLikeResponse.rows });
