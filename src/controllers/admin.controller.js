@@ -93,7 +93,7 @@ export const getPosts = async (req, res) => {
     const gQuery = `SELECT * FROM post_admins ORDER BY index DESC LIMIT 10 OFFSET ${(page - 1) * 10}`;
     const response = await pool.query(gQuery);
 
-    const uuids = response.rows.map(row => row.uuid).join(', ');
+    const uuids = response.rows.map(row => row.uuid);
     console.log(`UUIDS: ${uuids}`);
 
     const countLikeQuery = `
