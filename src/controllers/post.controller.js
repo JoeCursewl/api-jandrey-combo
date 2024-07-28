@@ -144,3 +144,37 @@ export const likePost = async (req, res) => {
     }
 }
 
+
+export const verifiedLike = async (req, res) => {
+    try {
+        const token = req.headers.authorization;
+        if (!token) {
+            return res.status(401).json({ message: "No se proporcionó un token. Servidor no autorizado" })
+        }
+
+        const { error, decoded } = validToken(token, SECRET_KEY);
+        if (error) {
+            return res.status(401).json({ message: "El token no es válido. Servicio no autorizado." })
+        }
+
+        const tQuery = "SELECT * FROM sessiontokens WHERE _id_user = $1 and stoken = $2"
+        const result = await pool.query(tQuery, [decoded._id, token])
+        if (result.rowCount === 0) {
+            return res.status(401).json({ message: error_messgae_401 })
+        }
+
+        const { post_id } = req.params;
+        const verifyLikeQuery = 'SELECT * FROM fg_likes WHERE post_id = $1 and user_id = $2'
+        const verifyLikeResponse = await pool.query(verifyLikeQuery, [post_id, decoded._id])
+
+        if (verifyLikeResponse.rowCount > 0) {
+            return res.status(200).json({ like: true })
+        } else {
+            return res.status(200).json({ like: false })
+        }
+    } catch (error) {
+        console.log(`BRD | ERROR: ${error.message}`)
+        return res.status(500).json({ message: `Ha ocurrido un error. ${error.message}` })   
+    }
+}
+
