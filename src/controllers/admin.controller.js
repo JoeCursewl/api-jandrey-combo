@@ -93,19 +93,16 @@ export const getPosts = async (req, res) => {
     const gQuery = `SELECT * FROM post_admins ORDER BY index DESC LIMIT 10 OFFSET ${(page - 1) * 10}`;
     const response = await pool.query(gQuery);
 
-    const uuids = response.rows.map(row => row.uuid);
+    const uuids = response.rows.map(row => row.uuid).join(', ');
     console.log(`UUIDS: ${uuids}`);
-    const placeholders = uuids.map(() => '$1').join(',');
-    console.log(`Placeholder: ${placeholders}`);
-    const countLikeQuery = `
-      SELECT post_id, COUNT(*) as total_likes
-      FROM fg_likes
-      WHERE post_id IN (${placeholders})
-      GROUP BY post_id
-    `;
 
-    console.log(`Count likes query: ${countLikeQuery}`);
-    const countLikeResponse = await pool.query(countLikeQuery, uuids);
+    const countLikeQuery = `
+    SELECT post_id, COUNT(*) as total_likes
+    FROM fg_likes
+    WHERE post_id = ANY($1)
+    GROUP BY post_id`;
+
+  const countLikeResponse = await pool.query(countLikeQuery, [uuids]);
 
     return res.status(200).json({ message: response.rows, likes: countLikeResponse.rows });
   } catch (error) {
