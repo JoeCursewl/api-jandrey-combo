@@ -1,6 +1,10 @@
 import pool from "../db.brd.js";
 import * as argon2 from "argon2";
 import jwt from "jsonwebtoken";
+
+// Crypto Random UUID
+import crypto from 'crypto';
+
 const { SECRET_KEY } = process.env;
 import {
   error_messgae_500,
