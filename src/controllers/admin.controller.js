@@ -95,7 +95,7 @@ export const getPosts = async (req, res) => {
 
     const uuids = response.rows.map(row => row.uuid);
     console.log(`UUIDS: ${uuids}`);
-    const placeholders = uuids.map(() => '?').join(',');
+    const placeholders = uuids.map(() => '$1').join(',');
     console.log(`Placeholder: ${placeholders}`);
     const countLikeQuery = `
       SELECT post_id, COUNT(*) as total_likes
@@ -105,7 +105,7 @@ export const getPosts = async (req, res) => {
     `;
 
     console.log(`Count likes query: ${countLikeQuery}`);
-    const countLikeResponse = await pool.query(countLikeQuery, uuids);
+    const countLikeResponse = await pool.query(countLikeQuery, [uuids]);
 
     return res.status(200).json({ message: response.rows, likes: countLikeResponse.rows });
   } catch (error) {
