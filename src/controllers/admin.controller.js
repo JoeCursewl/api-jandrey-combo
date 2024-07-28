@@ -94,6 +94,7 @@ export const getPosts = async (req, res) => {
     const response = await pool.query(gQuery);
 
     const uuids = response.rows.map(row => row.uuid);
+    console.log(`UUIDS: ${uuids}`);
     const placeholders = uuids.map(() => '?').join(',');
     console.log(`Placeholder: ${placeholders}`);
     const countLikeQuery = `
