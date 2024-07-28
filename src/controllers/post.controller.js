@@ -131,11 +131,11 @@ export const likePost = async (req, res) => {
         if (verifyLikeResponse.rowCount > 0) {
             const dLikeQuery = 'DELETE FROM fg_likes WHERE post_id = $1 and user_id = $2'
             const dLikeResponse = await pool.query(dLikeQuery, [post_id, decoded._id])
-            return res.status(200).json({ message: 'Like eliminado' })
+            return res.status(200).json({ message: 'Like eliminado', like: false })
         } else {
             let iLikeQuery = 'INSERT INTO fg_likes (post_id, user_id, created_at) VALUES ($1, $2, $3)'
             const iLikeResponse = await pool.query(iLikeQuery, [post_id, decoded._id, created_at])
-            return res.status(200).json({ message: 'Like registrado' })
+            return res.status(200).json({ message: 'Like registrado', like: true })
         }
 
     } catch (error) {
