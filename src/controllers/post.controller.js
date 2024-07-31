@@ -7,7 +7,7 @@ import { validToken } from "../middleware/auth/validToken.js"
 
 export const getPosts = async (req, res) => {
     try {
-        const token = req.headers.authorization
+        const token = req.headers.authorization;
         
         if (!token) {
             return res.status(401).json({ message: "No se proporcionó un token" })
@@ -21,9 +21,9 @@ export const getPosts = async (req, res) => {
             return res.status(401).json({ message: error_messgae_401 })
         }
 
-        const { id } = req.params
+        const { id } = req.params;
         const cQuery = 'SELECT * FROM post_admins WHERE uuid = $1'
-        const response = await pool.query(cQuery, [id])
+        const response = await pool.query(cQuery, [id]);
 
         if (response.rowCount === 0) {
             return res.status(404).json({ message: 'Post no encontrado' })
@@ -101,16 +101,16 @@ export const deletePost = async (req, res) => {
 }
 
 export const likePost = async (req, res) => {
-    const token = req.headers.authorization
+    const token = req.headers.authorization;
 
     if (!token) {
         return res.status(401).json({ message: "No se proporcionó un token. Servidor no autorizado" })
     }
 
     try {
-        const { error, decoded } = validToken(token, SECRET_KEY);
-
-        if (error) {
+        
+        const decoded = jwt.verify(token, SECRET_KEY);
+        if (!decoded) {
             return res.status(401).json({ message: "El token no es válido. Servicio no autorizado." })
         }
 
@@ -152,8 +152,8 @@ export const verifiedLike = async (req, res) => {
             return res.status(401).json({ message: "No se proporcionó un token. Servidor no autorizado" })
         }
 
-        const { error, decoded } = validToken(token, SECRET_KEY);
-        if (error) {
+        const decoded = jwt.verify(token, SECRET_KEY);
+        if (!decoded) {
             return res.status(401).json({ message: "El token no es válido. Servicio no autorizado." })
         }
 
