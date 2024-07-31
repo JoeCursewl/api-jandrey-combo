@@ -139,7 +139,7 @@ export const likePost = async (req, res) => {
         }
 
     } catch (error) {
-        console.log(`BRD | ERROR: ${error.message}`)
+        console.log(`BRD | ERROR GIVE LIKE: ${error.message}`)
         return res.status(500).json({ message: error_messgae_500 })
     }
 }
@@ -173,7 +173,7 @@ export const verifiedLike = async (req, res) => {
             return res.status(200).json({ like: false })
         }
     } catch (error) {
-        console.log(`BRD | ERROR: ${error.message}`)
+        console.log(`BRD | ERROR VERIFIED LIKE: ${error.message}`)
         return res.status(500).json({ message: `Ha ocurrido un error. ${error.message}` })   
     }
 }
