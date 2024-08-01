@@ -180,7 +180,7 @@ export const verifiedLike = async (req, res) => {
 
 
 export const insertComment = async (req, res) => {
-    token = req.headers.authorization;
+    const token = req.headers.authorization;
 
     try {
         if (!token) {
