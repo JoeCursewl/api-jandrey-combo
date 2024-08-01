@@ -186,6 +186,11 @@ export const insertComment = async (req, res) => {
         if (!token) {
             return res.status(401).json({ message: "No se proporcionó un token. Servidor no autorizado" })
         }
+
+        const decoded = jwt.verify(token, SECRET_KEY);
+        if (!decoded) {
+            return res.status(401).json({ message: "El token no es válido. Servicio no autorizado." })
+        }
     
         const vQuery = "SELECT * FROM sessiontokens WHERE _id_user = $1 and stoken = $2"
         const result = await pool.query(vQuery, [decoded._id, token])
