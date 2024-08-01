@@ -178,3 +178,35 @@ export const verifiedLike = async (req, res) => {
     }
 }
 
+
+export const insertComment = async (req, res) => {
+    token = req.headers.authorization;
+
+    try {
+        if (!token) {
+            return res.status(401).json({ message: "No se proporcionó un token. Servidor no autorizado" })
+        }
+    
+        const vQuery = "SELECT * FROM sessiontokens WHERE _id_user = $1 and stoken = $2"
+        const result = await pool.query(vQuery, [decoded._id, token])
+        if (result.rowCount === 0) {
+            return res.status(401).json({ message: error_messgae_401 })
+        }
+    
+        const { post_id } = req.params;
+        const { comment_content, created_at, updated_at } = req.body;
+    
+        const iCommentQuery = 'INSERT INTO fg_comments (comment_content, user_id, post_id, created_at, updated_at) VALUES ($1, $2, $3, $4, $5)';
+        const iCommentResponse = await pool.query(iCommentQuery, [comment, decoded._id, post_id, created_at, updated_at]);
+    
+        if (iCommentResponse.rowCount === 0) {
+            return res.status(400).json({ message: 'No se pudo registrar el comentario. Intente de nuevo!' })
+        }
+    
+        return res.status(200).json({ message: 'Comentario registrado' })
+    } catch (error) {
+        console.log(`BRD | ERROR INSERT COMMENT: ${error.message}`)
+        return res.status(500).json({ message: error.message })
+    }
+}
+
