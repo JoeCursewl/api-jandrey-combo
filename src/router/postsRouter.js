@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getPosts, updatePost, deletePost, likePost, verifiedLike } from '../controllers/post.controller.js';
+import { getPosts, updatePost, deletePost, likePost, verifiedLike, insertComment } from '../controllers/post.controller.js';
 
 const postsRouter = Router()
 
@@ -12,6 +12,8 @@ postsRouter.delete('/delete/:id', deletePost)
 postsRouter.post('/like/:post_id', likePost)
 
 postsRouter.get('/like/v/:post_id', verifiedLike)
+
+postsRouter.post('/comment/:post_id', insertComment)
 
 export default postsRouter
 
