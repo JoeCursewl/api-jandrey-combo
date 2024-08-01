@@ -202,7 +202,7 @@ export const insertComment = async (req, res) => {
         const { comment_content, created_at, updated_at } = req.body;
     
         const iCommentQuery = 'INSERT INTO fg_comments (comment_content, user_id, post_id, created_at, updated_at) VALUES ($1, $2, $3, $4, $5)';
-        const iCommentResponse = await pool.query(iCommentQuery, [comment, decoded._id, post_id, created_at, updated_at]);
+        const iCommentResponse = await pool.query(iCommentQuery, [comment_content, decoded._id, post_id, created_at, updated_at]);
     
         if (iCommentResponse.rowCount === 0) {
             return res.status(400).json({ message: 'No se pudo registrar el comentario. Intente de nuevo!' })
