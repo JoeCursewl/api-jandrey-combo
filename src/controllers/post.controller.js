@@ -235,7 +235,7 @@ export const getAllComments = async (req, res) => {
 
         const { post_id } = req.params;
         const cQuery = `
-            SELECT * FROM fg_comments WHERE post_id = $1 ORDER BY id DESC`;
+            SELECT * FROM fg_comments WHERE post_id = $1 ORDER BY id DESC INNER JOIN users ON fg_comments.user_id = users._id`;
         const response = await pool.query(cQuery, [post_id]);
 
         return res.status(200).json({ comments: response.rows })
