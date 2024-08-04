@@ -246,13 +246,8 @@ export const getAllComments = async (req, res) => {
             fc.post_id = $1;
     `;
         const response = await pool.query(cQuery, [post_id]);
-        
-        if (response.rowCount === 0) {
-            return res.status(404).json({ message: 'No se encontraron comentarios' })
-        }
 
         return res.status(200).json({ comments: response.rows })
-
     } catch (error) {
         console.log(`BRD | ERROR GET COMMENTS: ${error.message}`)
         return res.status(500).json({ message: error.message })
