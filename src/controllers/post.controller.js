@@ -215,3 +215,47 @@ export const insertComment = async (req, res) => {
     }
 }
 
+export const getAllComments = async (req, res) => {
+    const token = req.headers.authorization;
+    try {
+        if (!token) {
+            return res.status(401).json({ message: "No se proporcionó un token. Servidor no autorizado" })
+        }
+
+        const decoded = jwt.verify(token, SECRET_KEY);
+        if (!decoded) {
+            return res.status(401).json({ message: "El token no es válido. Servicio no autorizado." })
+        }
+
+        const vQuery = "SELECT * FROM sessiontokens WHERE _id_user = $1 and stoken = $2"
+        const result = await pool.query(vQuery, [decoded._id, token])
+        if (result.rowCount === 0) {
+            return res.status(401).json({ message: error_messgae_401 })
+        }
+
+        const { post_id } = req.params;
+        const cQuery = `
+        SELECT 
+            fc.*, 
+            u.name, 
+            u.email
+        FROM 
+            fg_comments fc
+        INNER JOIN users u ON fc.user_id = u._id
+        WHERE 
+            fc.post_id = $1;
+    `;
+        const response = await pool.query(cQuery, [post_id]);
+        
+        if (response.rowCount === 0) {
+            return res.status(404).json({ message: 'No se encontraron comentarios' })
+        }
+
+        return res.status(200).json({ comments: response.rows })
+
+    } catch (error) {
+        console.log(`BRD | ERROR GET COMMENTS: ${error.message}`)
+        return res.status(500).json({ message: error.message })
+    }
+}
+
