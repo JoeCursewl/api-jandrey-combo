@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getPosts, updatePost, deletePost, likePost, verifiedLike, insertComment, getAllComments, getLikeCount, updateComment } from '../controllers/post.controller.js';
+import { getPosts, updatePost, deletePost, likePost, verifiedLike, insertComment, getAllComments, getLikeCount, updateComment, deleteComment } from '../controllers/post.controller.js';
 
 const postsRouter = Router()
 
@@ -20,6 +20,8 @@ postsRouter.get('/comment/getall/id/:post_id/:page', getAllComments)
 postsRouter.get('/likes/v/count/:post_id', getLikeCount)
 
 postsRouter.patch('/comment/u/:comment_id', updateComment)
+
+postsRouter.delete('/comment/d/:comment_id', deleteComment)
 
 export default postsRouter
 
