@@ -319,3 +319,35 @@ export const updateComment = async (req, res) => {
     }
 }
 
+export const deleteComment = async (req, res) => {
+    const token = req.headers.authorization;
+    try {
+        if (!token) {
+            return res.status(401).json({ message: "No se proporcionó un token. Servidor no autorizado" })
+        }
+
+        const decoded = jwt.verify(token, SECRET_KEY);
+        if (!decoded) {
+            return res.status(401).json({ message: "El token no es válido. Servicio no autorizado." })
+        }
+
+        const vQuery = "SELECT * FROM sessiontokens WHERE _id_user = $1 and stoken = $2"
+        const result = await pool.query(vQuery, [decoded._id, token])
+        if (result.rowCount === 0) {
+            return res.status(401).json({ message: error_messgae_401 })
+        }
+
+        const { comment_id } = req.params;
+        const dQuery = 'DELETE FROM fg_comments WHERE id = $1';
+        const response = await pool.query(dQuery, [comment_id]);
+        if (response.rowCount === 0) {
+            return res.status(404).json({ message: 'Comentario no encontrado' })
+        }  
+
+        return res.status(200).json({ message: 'Comentario eliminado' })
+    } catch (error) {
+        console.log(`BRD | ERROR DELETE COMMENT: ${error.message}`)
+        return res.status(500).json({ message: error.message })
+    }
+}
+
