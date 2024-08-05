@@ -305,9 +305,9 @@ export const updateComment = async (req, res) => {
         }
 
         const { comment_id } = req.params;
-        const { comment } = req.body;
+        const { comment_content } = req.body;
         const uQuery = 'UPDATE fg_comments SET comment_content = $1 WHERE id = $2';
-        const response = await pool.query(uQuery, [comment, comment_id]);
+        const response = await pool.query(uQuery, [comment_content, comment_id]);
         if (response.rowCount === 0) {
             return res.status(404).json({ message: 'Comentario no encontrado' })
         }
