@@ -278,10 +278,43 @@ export const getLikeCount = async (req, res) => {
         const cQuery = 'SELECT COUNT(*) FROM fg_likes WHERE post_id = $1';
         const response = await pool.query(cQuery, [post_id]);
         const count = response.rows[0].count;
-        
+
         return res.status(200).json({ likes: count })
     } catch (error) {
         console.log(`BRD | ERROR GET LIKE COUNT: ${error.message}`)
+        return res.status(500).json({ message: error.message })
+    }
+}
+
+export const updateComment = async (req, res) => {
+    const token = req.headers.authorization;
+    try {
+        if (!token) {
+            return res.status(401).json({ message: "No se proporcionó un token. Servidor no autorizado" })
+        }
+
+        const decoded = jwt.verify(token, SECRET_KEY);
+        if (!decoded) {
+            return res.status(401).json({ message: "El token no es válido. Servicio no autorizado." })
+        }
+
+        const vQuery = "SELECT * FROM sessiontokens WHERE _id_user = $1 and stoken = $2"
+        const result = await pool.query(vQuery, [decoded._id, token])
+        if (result.rowCount === 0) {
+            return res.status(401).json({ message: error_messgae_401 })
+        }
+
+        const { comment_id } = req.params;
+        const { comment } = req.body;
+        const uQuery = 'UPDATE fg_comments SET comment = $1 WHERE id = $2';
+        const response = await pool.query(uQuery, [comment, comment_id]);
+        if (response.rowCount === 0) {
+            return res.status(404).json({ message: 'Comentario no encontrado' })
+        }
+
+        return res.status(200).json({ message: 'Comentario actualizado' })
+    } catch (error) {
+        console.log(`BRD | ERROR UPDATE COMMENT: ${error.message}`)
         return res.status(500).json({ message: error.message })
     }
 }
