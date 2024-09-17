@@ -124,10 +124,10 @@ export const saveTrainer = async (req, res) => {
       return res.status(401).json({ message: "Token inválido. Servicio denegado" });
     }
 
-    const verifiedIfSaved = "SELECT * FROM saved_trainers WHERE user_id = $1 and trainer_id = $2";
+    const verifiedIfSaved = "SELECT * FROM trainers_saved WHERE user_id = $1 and trainer_id = $2";
     const result2 = await pool.query(verifiedIfSaved, [decoded._id, req.body.trainer_id]);
     if (result2.rowCount > 0) {
-      const unsavedQuery = "DELETE FROM saved_trainers WHERE user_id = $1 and trainer_id = $2";
+      const unsavedQuery = "DELETE FROM trainers_saved WHERE user_id = $1 and trainer_id = $2";
       const response = await pool.query(unsavedQuery, [decoded._id, req.body.trainer_id]);
 
       if (response.rowCount === 0) {
@@ -173,7 +173,7 @@ export const stateTrainerSaved = async (req, res) => {
     }
 
     const { id } = req.params;
-    const sQuery = "SELECT * FROM saved_trainers WHERE user_id = $1 and trainer_id = $2";
+    const sQuery = "SELECT * FROM trainers_saved WHERE user_id = $1 and trainer_id = $2";
 
     const savedOrnot = await pool.query(sQuery, [decoded._id, id]);
 
