@@ -138,7 +138,7 @@ export const saveTrainer = async (req, res) => {
     } else {
       const { user_id, trainer_id, saved_at } = req.body;
       const id = crypto.randomUUID()
-      const sQuery = "INSERT INTO saved_trainers (id, user_id, trainer_id, saved_at) VALUES ($1, $2, $3, $4)";
+      const sQuery = "INSERT INTO trainers_saved (id, user_id, trainer_id, saved_at) VALUES ($1, $2, $3, $4)";
       const response = await pool.query(sQuery, [id.split("-")[0], user_id, trainer_id, saved_at]);
   
       if (response.rowCount === 0) {
