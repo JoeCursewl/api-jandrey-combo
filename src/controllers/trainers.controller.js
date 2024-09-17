@@ -211,7 +211,8 @@ export const getTrainersSaved = async (req, res) => {
       return res.status(401).json({ message: error_messgae_401 });
     }
 
-    const sQuery = "SELECT * FROM trainers_saved WHERE user_id = $1";
+    console.log(decoded._id);
+    const sQuery = "SELECT * FROM trainers_saved WHERE user_id = $1::bigint";
     const saved = await pool.query(sQuery, [decoded._id]);
     if (saved.rowCount === 0) {
       return res.status(200).json({ trainers: "No hay entrenadores guardados" });
