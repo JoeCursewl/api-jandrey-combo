@@ -212,7 +212,7 @@ export const getTrainersSaved = async (req, res) => {
     }
 
     const { id } = req.params;
-    const sQuery = `SELECT ts.id, ts.user_id, u.name, u.last_name, ts.trainer_id, t.name_trainer, t.packages_trainer, t.schedule_trainer, t.info_trainer, t.status_trainer, ts.saved_at
+    const sQuery = `SELECT ts.id, ts.user_id, u.name, u.last_name, ts.trainer_id, t.name_trainer, t.packages_trainer, t.schedule_trainer, t.info_trainer, t.status_trainer, t.created_at, ts.saved_at
                     FROM trainers_saved ts
                     INNER JOIN users u ON ts.user_id = u._id
                     INNER JOIN admin_trainers t ON ts.trainer_id = t._id_trainer;`;
