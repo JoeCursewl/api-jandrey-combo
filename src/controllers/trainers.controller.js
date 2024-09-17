@@ -216,7 +216,7 @@ export const getTrainersSaved = async (req, res) => {
                     FROM trainers_saved ts
                     INNER JOIN users u ON ts.user_id = u._id
                     INNER JOIN admin_trainers t ON ts.trainer_id = t._id_trainer;`;
-    const saved = await pool.query(sQuery, [id]);
+    const saved = await pool.query(sQuery);
     if (saved.rowCount === 0) {
       return res.status(200).json({ trainers: "No hay entrenadores guardados" });
     }
