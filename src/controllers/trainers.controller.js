@@ -78,6 +78,10 @@ export const deleteTrainer = async (req, res) => {
 
   try {
     const decoded = jwt.verify(token, SECRET_KEY);
+    if (!decoded) {
+      return res.status(401).json({ message: "Token inválido. Servicio denegado" });
+    }
+
     const tQuery = 'SELECT * FROM sessiontokens WHERE _id_user = $1 and stoken = $2'
     const result = await pool.query(tQuery, [decoded._id, token]);
 
@@ -99,3 +103,51 @@ export const deleteTrainer = async (req, res) => {
     return res.status(500).json({ message: error_messgae_500 });
   }
 };
+
+
+export const saveTrainer = async (req, res) => {
+  const token = req.headers.authorization;
+  if (!token) {
+    return res.status(401).json({ message: "No se proporcionó un token" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, SECRET_KEY);
+    if (!decoded) {
+      return res.status(401).json({ message: "Token inválido. Servicio denegado" });
+    }
+
+    const tQuery = 'SELECT * FROM sessiontokens WHERE _id_user = $1 and stoken = $2'
+    const result = await pool.query(tQuery, [decoded._id, token]);
+
+    if (result.rowCount === 0) {
+      return res.status(401).json({ message: "Token inválido. Servicio denegado" });
+    }
+
+    const verifiedIfSaved = "SELECT * FROM saved_trainers WHERE user_id = $1 and trainer_id = $2";
+    const result2 = await pool.query(verifiedIfSaved, [decoded._id, req.body.trainer_id]);
+    if (result2.rowCount > 0) {
+      const unsavedQuery = "DELETE FROM saved_trainers WHERE user_id = $1 and trainer_id = $2";
+      const response = await pool.query(unsavedQuery, [decoded._id, req.body.trainer_id]);
+
+      if (response.rowCount === 0) {
+        return res.status(400).json({ message: response.message });
+      }
+
+      return res.status(200).json({ message: "Entrenador no guardado" });
+    } else {
+      const { user_id, trainer_id, saved_at } = req.body;
+      const id = crypto.randomUUID()
+      const sQuery = "INSERT INTO saved_trainers (id, user_id, trainer_id, saved_at) VALUES ($1, $2, $3, $4)";
+      const response = await pool.query(sQuery, [id.split("-")[0], user_id, trainer_id, saved_at]);
+  
+      if (response.rowCount === 0) {
+        return res.status(400).json({ message: response.message });
+      }
+  
+      return res.status(200).json({ message: "Entrenador guardado" });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: error_messgae_500 });
+  }
+}
