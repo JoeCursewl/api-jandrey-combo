@@ -12,7 +12,7 @@ trainersRouter.post('/save', saveTrainer)
 
 trainersRouter.get('/save/verify/:id', stateTrainerSaved)
 
-trainersRouter.get('/get/saved', getTrainersSaved)
+trainersRouter.get('/get/saved/:id', getTrainersSaved)
 
 export default trainersRouter
 
