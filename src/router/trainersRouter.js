@@ -4,7 +4,7 @@ import { deleteTrainer, getTrainer, updateTrainer } from '../controllers/trainer
 
 trainersRouter.get('/get/:id', getTrainer)
 
-trainersRouter.patch('/update/:id', updateTrainer)
+trainersRouter.put('/update/:id', updateTrainer)
 
 trainersRouter.delete('/delete/:id', deleteTrainer)
 
