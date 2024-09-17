@@ -152,7 +152,7 @@ export const saveTrainer = async (req, res) => {
   }
 }
 
-const stateTrainerSaved = async (req, res) => {
+export const stateTrainerSaved = async (req, res) => {
   const token = req.headers.authorization;
   if (!token) {
     return res.status(401).json({ message: "No se proporcionó un token" });
@@ -184,6 +184,6 @@ const stateTrainerSaved = async (req, res) => {
 
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: error_messgae_500 });
+    return res.status(500).json({ message: error.message });
   }
 }
