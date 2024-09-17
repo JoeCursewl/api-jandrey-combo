@@ -79,6 +79,10 @@ export const updateTrainer = async (req, res) => {
       id,
     ]);
 
+    if (response.rowCount === 0) {
+      return res.status(404).json({ message: "No se pudo actualizar el entrandor" });
+    }
+
     return res.status(200).json({ message: "Entrenador actualizado" });
   } catch (error) {
     return res.status(200).json({ message: error_messgae_500 });
