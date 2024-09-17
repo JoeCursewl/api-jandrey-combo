@@ -181,9 +181,9 @@ export const stateTrainerSaved = async (req, res) => {
     const savedOrnot = await pool.query(sQuery, [decoded._id, id]);
 
     if (savedOrnot.rowCount === 0) {
-      return res.status(200).json({ message: "Entrenador no guardado", state: false });
+      return res.status(200).json({ message: "Entrenador removido!", state: false });
     } else {
-      return res.status(200).json({ message: "Entrenador guardado", state: true });
+      return res.status(200).json({ message: "Entrenador guardado!", state: true });
     }
 
   } catch (error) {
