@@ -151,3 +151,39 @@ export const saveTrainer = async (req, res) => {
     return res.status(500).json({ message: error_messgae_500 });
   }
 }
+
+const stateTrainerSaved = async (req, res) => {
+  const token = req.headers.authorization;
+  if (!token) {
+    return res.status(401).json({ message: "No se proporcionó un token" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, SECRET_KEY);
+    if (!decoded) {
+      return res.status(401).json({ message: "Token inválido. Servicio denegado" });
+    }
+
+    const tQuery = 'SELECT * FROM sessiontokens WHERE _id_user = $1 and stoken = $2' 
+    const result = await pool.query(tQuery, [decoded._id, token]);
+
+    if (result.rowCount === 0) {
+      return res.status(401).json({ message: error_messgae_401 });
+    }
+
+    const { id } = req.params;
+    const sQuery = "SELECT * FROM saved_trainers WHERE user_id = $1 and trainer_id = $2";
+
+    const savedOrnot = await pool.query(sQuery, [decoded._id, id]);
+
+    if (savedOrnot.rowCount === 0) {
+      return res.status(200).json({ message: "Entrenador no guardado", state: false });
+    } else {
+      return res.status(200).json({ message: "Entrenador guardado", state: true });
+    }
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: error_messgae_500 });
+  }
+}
