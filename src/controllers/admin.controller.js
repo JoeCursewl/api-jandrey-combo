@@ -189,10 +189,12 @@ export const registerTrainers = async (req, res) => {
       status_trainer,
       created_at,
       updated_at,
+      phone,
+      areacode
     } = req.body;
 
     const iQuery =
-      "INSERT INTO admin_trainers VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)";
+      "INSERT INTO admin_trainers VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)";
     const response = await pool.query(iQuery, [
       _id_trainer,
       _id_user,
@@ -203,6 +205,8 @@ export const registerTrainers = async (req, res) => {
       status_trainer,
       created_at,
       updated_at,
+      phone,
+      areacode
     ]);
 
     if (response.rowCount === 0) {
@@ -219,6 +223,8 @@ export const registerTrainers = async (req, res) => {
       status_trainer: status_trainer,
       created_at: created_at,
       updated_at: updated_at,
+      phone: phone,
+      areacode: areacode
     });
   } catch (error) {
     console.log(error.message);
