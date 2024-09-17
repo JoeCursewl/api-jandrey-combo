@@ -81,7 +81,7 @@ export const updateTrainer = async (req, res) => {
 
     return res.status(200).json({ message: "Entrenador actualizado" });
   } catch (error) {
-    return res.stauts(200).json({ message: error_messgae_500 });
+    return res.status(200).json({ message: error_messgae_500 });
   }
 };
 
