@@ -148,6 +148,7 @@ export const saveTrainer = async (req, res) => {
       return res.status(200).json({ message: "Entrenador guardado" });
     }
   } catch (error) {
+    console.log(error.message);
     return res.status(500).json({ message: error_messgae_500 });
   }
 }
