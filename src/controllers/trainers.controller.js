@@ -54,34 +54,14 @@ export const updateTrainer = async (req, res) => {
       return res.status(401).json({ message: error_messgae_401 });
     }
 
-    const { id } = req.params;
-    const {
-      name_trainer,
-      packages_trainer,
-      schedule_trainer,
-      info_trainer,
-      status_trainer,
-      updated_at,
-      phone, 
-      areacode
-    } = req.body;
-    console.log(req.body)
-    const uQuery =
-      "UPDATE admin_trainers SET name_trainer = $1, packages_trainer = $2, schedule_trainer = $3, info_trainer = $4, status_trainer = $5, updated_at = $6, phone = $7, areacode = $8 WHERE _id_trainer = $9";
-    const response = await pool.query(uQuery, [
-      name_trainer,
-      packages_trainer,
-      schedule_trainer,
-      info_trainer,
-      status_trainer,
-      updated_at,
-      phone,
-      areacode,
-      id,
-    ]);
+    const { name_trainer, packages_trainer, schedule_trainer, info_trainer, status_trainer, updated_at, phone_trainer, area_code } = req.body;
+    const { id } = req.params; 
+    const uQuery = "UPDATE admin_trainers SET name_trainer = $1, packages_trainer = $2, schedule_trainer = $3, info_trainer = $4, status_trainer = $5, updated_at = $6, phone_trainer = $7, area_code = $8 WHERE _id_trainer = $9";
+
+    const response = await pool.query(uQuery, [name_trainer, packages_trainer, schedule_trainer, info_trainer, status_trainer, updated_at, phone_trainer, area_code, id]);
 
     if (response.rowCount === 0) {
-      return res.status(404).json({ message: "No se pudo actualizar el entrandor" });
+      return res.status(400).json({ message: response.message });
     }
 
     return res.status(200).json({ message: "Entrenador actualizado" });
