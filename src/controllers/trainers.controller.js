@@ -62,9 +62,11 @@ export const updateTrainer = async (req, res) => {
       info_trainer,
       status_trainer,
       updated_at,
+      phone, 
+      areacode
     } = req.body;
     const uQuery =
-      "UPDATE admin_trainers SET name_trainer = $1, packages_trainer = $2, schedule_trainer = $3, info_trainer = $4, status_trainer = $5, updated_at = $6 WHERE _id_trainer = $7";
+      "UPDATE admin_trainers SET name_trainer = $1, packages_trainer = $2, schedule_trainer = $3, info_trainer = $4, status_trainer = $5, updated_at = $6, phone = $7, areacode = $8 WHERE _id_trainer = $9";
     const response = await pool.query(uQuery, [
       name_trainer,
       packages_trainer,
@@ -72,6 +74,8 @@ export const updateTrainer = async (req, res) => {
       info_trainer,
       status_trainer,
       updated_at,
+      phone,
+      areacode,
       id,
     ]);
 
