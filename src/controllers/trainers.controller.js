@@ -211,7 +211,7 @@ export const getTrainersSaved = async (req, res) => {
       return res.status(401).json({ message: error_messgae_401 });
     }
 
-    console.log(decoded._id);
+    console.log(`EL ID DE EL USUARIO ES ${decoded._id}`);
     const sQuery = "SELECT * FROM trainers_saved WHERE user_id = $1::bigint";
     const saved = await pool.query(sQuery, [decoded._id]);
     if (saved.rowCount === 0) {
