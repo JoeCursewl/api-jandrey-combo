@@ -7,6 +7,9 @@ import {
 } from "../config.brd.js";
 import pool from "../db.brd.js";
 
+// Crypto Random UUID
+import crypto from 'crypto';
+
 export const getTrainer = async (req, res) => {
   const token = req.headers.authorization;
   if (!token) {
