@@ -17,11 +17,11 @@ export const registerUsers = async (req, res) => {
   try {
     const { _id, name, last_name, email, password, created_at, role } = req.body;
 
-    const verificationQuery = "SELECT * FROM users WHERE email = $1 OR name = $2";
-    const result = await pool.query(verificationQuery, [email, name]);
+    const verificationQuery = "SELECT * FROM users WHERE email = $1";
+    const result = await pool.query(verificationQuery, [email]);
 
     if (result.rowCount > 0) {
-      return res.status(400).json({ message: error_messgae_400 });
+      return res.status(403).json({ message: error_messgae_400 });
     }
 
     const rQuery = "INSERT INTO users VALUES ($1, $2, $3, $4, $5, $6, $7)";
